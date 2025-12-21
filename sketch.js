@@ -22,7 +22,7 @@ function draw(){
     let isHovering = false;
 
     //Check if the mouse is on the ring 
-    if(distFromCentre>90 && distFromCentre<120){
+    if(distFromCentre>50 && distFromCentre<160){
         //Check if mouse is on a specific segment
         if((mouseA>0 && mouseA<90) || 
             (mouseA>120 && mouseA<200)||
