@@ -3,6 +3,7 @@
 
 let angle = 0; 
 let speed = 0.5; //base speed
+let isReading = false; //whether the user is reading a story
 
 function setup(){
     //creates the canvas
@@ -22,7 +23,7 @@ function draw(){
     let isHovering = false;
 
     //Check if the mouse is on the ring 
-    if(distFromCentre<160){
+    if(distFromCentre > 40 && distFromCentre<160){
         //Check if mouse is on a specific segment
         if((mouseA>0 && mouseA<90) || 
             (mouseA>120 && mouseA<200)||
@@ -32,13 +33,15 @@ function draw(){
     }
 
     //new physics block
+    let targetSpeed = 0.5;
     if(isHovering){
-        speed = 0;
+        targetSpeed = 0;
         cursor(HAND); //show pointer idk
     } else {
-        speed = 0.5;
         cursor(ARROW) //show arrow (what)
     }
+
+    speed = lerp(speed, targetSpeed, 0.1); //smooth transition
 
     push(); //starts isolation
 
@@ -46,7 +49,7 @@ function draw(){
     stroke(255);
     strokeWeight(4);
 
-    translate(windowWidth/2,windowHeight/2);
+    translate(width/2,height/2);
     d = 200 //200 pixels
 
     //this rotates the page
@@ -69,7 +72,7 @@ function draw(){
 //helper function thingy
 function getCorrectedMouseAngle(){
     //1. Calculate the angle from the centre
-    let rawAngle = degrees(atan2(mouseY - height/2, mouseX - width/2));
+    let rawAngle = atan2(mouseY - height/2, mouseX - width/2);
 
     //2. Negative raw angle correction
     if(rawAngle<0){
@@ -86,4 +89,50 @@ function getCorrectedMouseAngle(){
     }
 
     return correctedAngle;
+}
+
+function mousePressed(){
+
+    if(isReading){
+        return;
+    }
+    let mouseA = getCorrectedMouseAngle();
+    let distance = dist(mouseX, mouseY, width/2, height/2);
+
+    if(distance > 40 && distance<160){
+        if(mouseA>0 && mouseA<90){
+            openStory("story-1");
+        }
+
+        else if (mouseA>120 && mouseA<200){
+            openStory("story-2");
+        }
+
+        else if (mouseA>230 && mouseA<330){
+            openStory("story-3");
+        }
+    }
+
+}
+
+function openStory(id){
+    noLoop(); //stops the draw loop
+    isReading = true; //user is reading a story
+
+    document.getElementById(id).style.display = "block"; //shows the story div
+}
+
+function closeStory(id){
+    let cards = document.querySelectorAll(".story-card");
+    cards.forEach(card => {
+        card.style.display = "none";
+    });
+    setTimeout(() => {
+        isReading = false; //user is no longer reading
+        loop();
+    }, 100);
+}
+
+function windowResized(){
+    resizeCanvas(windowWidth, windowHeight);
 }

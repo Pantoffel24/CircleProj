@@ -1,0 +1,19 @@
+.story-card{
+    display: none; /*Hide story card stuff by default*/
+
+    position: absolute; 
+    z-index: 10; /*Make sure it appears above other elements*/
+
+    top : 50%;
+    left : 50%;
+    transform: translate(-50%,-50%); /*Center the card on the screen*/
+
+    width: 60%;
+    background-color: rgba(0,0,0,0.95); /*Semi-transparent black background*/
+    border: 1px solid white;
+    color: white;
+    padding: 40px;
+    font-family: 'Courier New', monospace;
+    text-align: center;
+    box-shadow: 0 0 50px 20px black; /*Glow effect*/
+}
