@@ -16,7 +16,7 @@ function setup(){
 function draw(){
     //Paint the background black
     background(0);
-
+    let label = document.getElementById("arc-label");
     //Sensor logic
     let mouseA = getCorrectedMouseAngle();
     let distFromCentre = dist(mouseX, mouseY, width/2, height/2);
@@ -25,11 +25,22 @@ function draw(){
     //Check if the mouse is on the ring 
     if(distFromCentre > 40 && distFromCentre<160){
         //Check if mouse is on a specific segment
-        if((mouseA>0 && mouseA<90) || 
-            (mouseA>120 && mouseA<200)||
-            (mouseA>230 && mouseA<330)) {
-                isHovering = true;
-            } 
+        if(mouseA>0 && mouseA<90){
+            isHovering = true;
+            label.innerHTML = "DRACULA<br><small>The feeling is bizarre</small>";
+        }
+        else if (mouseA>120 && mouseA<200){
+            isHovering = true;
+            label.innerHTML = "Story 2";
+        }
+        else if (mouseA>230 && mouseA<330){
+            isHovering = true;
+            label.innerHTML = "Story 3";
+        }
+
+        else {
+            label.innerText = "";
+        }
     }
 
     //new physics block
